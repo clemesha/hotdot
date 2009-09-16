@@ -39,12 +39,10 @@ class StompPortalCustom(portal.Portal):
         portal.Portal.__init__(self, realm)
 
     def stomp_login(self, **kw):
-        print "----- kw ---- ", kw
-        print "In stomp_login", kw.get("login","None"), kw.get("passcode", "None")
-        creds = credentials.UsernamePassword(kw.get("login", ""),
-                                            kw.get("passcode", ""))
+        #XXX use 'username, cookie'.
+        username, password = kw.get("login", ""), kw.get("passcode", "")
+        creds = credentials.UsernamePassword(username, password)
         d = self.login(creds, None, IConnector)
-        print "Stomp_login d = ", d
         return d
 
 

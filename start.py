@@ -2,7 +2,6 @@
 File that demonstates minimal orbited usage.
 
 """
-from string import Template
 from twisted.web import static, resource, server
 from twisted.application import internet, service
 
@@ -19,32 +18,18 @@ config.map["[access]"]={(INTERFACE, 9999):"*"}
 STATIC_PORT = 8000
 STOMP_PORT = 9999
 CHANNEL_NAME = "/topic/test"
-INTERVAL = 1.5 #seconds
+INTERVAL = 2.0 #seconds
 
 #The below depend on logging.setup(...)
 from orbited import cometsession
 from orbited import proxy
 
+from twresource import get_root_resource
 
-class Root(resource.Resource):
-
-    def getChild(self, name, request):
-        if name == '':
-            return self
-        return resource.Resource.getChild(self, name, request)
-    
-    def render_GET(self, request):
-        fs = open("index.html").read()
-        args = {"STOMP_PORT":STOMP_PORT, "CHANNEL_NAME":CHANNEL_NAME, "HOST":INTERFACE}
-        tmpl = Template(fs).substitute(args)
-        return tmpl
-
-root = Root()
+root = get_root_resource()
 root.putChild("static", static.File("static"))
 http_factory = server.Site(root)
 
-#from twisted.internet import reactor
-#reactor.listenWith(cometsession.Port, factory=proxy.ProxyFactory(), resource=root, childName="tcp", interface=INTERFACE)
 
 #Twisted Application boilerplate:
 application = service.Application('orbited-dissected')

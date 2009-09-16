@@ -7,6 +7,11 @@ using STOMP as the example protocol.
 
 Usage
 -----
+In the directory 'djangoweb', type:
+    
+    $ django-admin.py syncdb --pythonpath='.' --settings='settings'
+
+
 See Config options in `start.py`, then run:
 
     $ twistd -ny start.py 
