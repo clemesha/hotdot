@@ -8,6 +8,7 @@ from twisted.application import internet, service
 
 from morbid import StompFactory
 from stomp_produce import ProduceData
+from stompfactory import get_stomp_factory
 
 # Config
 from orbited import logging, config
@@ -53,7 +54,8 @@ proxy_factory = proxy.ProxyFactory()
 internet.GenericServer(cometsession.Port, factory=proxy_factory, resource=root, childName="tcp", interface=INTERFACE).setServiceParent(serviceCollection)
 
 #Stomp Listen:
-stomp_factory = StompFactory(mqm=None, filename=None, rqaddr=None, verbose=False)
+stomp_factory = get_stomp_factory()
+#stomp_factory = StompFactory(mqm=None, filename=None, rqaddr=None, verbose=True)
 internet.TCPServer(STOMP_PORT, stomp_factory, interface=INTERFACE).setServiceParent(serviceCollection)
 
 #Stomp Produce Data Connect:

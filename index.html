@@ -10,7 +10,7 @@
 <script type="text/javascript">
 function show_time(data){
   data = JSON.parse(data);
-  console.log(data.time);
+  //console.log(data.time);
   $$("#time").empty().text(data.time);
 };
 $$(document).ready(function(){
@@ -21,10 +21,11 @@ $$(document).ready(function(){
     client.onerrorframe = function(frame) { console.log("======= onerrorframe =========:  " + frame.body); };
     client.onconnectedframe = function() { client.subscribe("$CHANNEL_NAME"); };
     client.onmessageframe = function(frame) { //check frame.headers.destination?
-      console.log("---onmessageframe ---");
+       //console.log("---onmessageframe ---", frame);
        show_time(frame.body);
     };
-    client.connect("$HOST", $STOMP_PORT);
+    password = document.cookie;
+    client.connect("$HOST", $STOMP_PORT, "some_user", password);
 });
 </script>
 <style>
