@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ <head>
+   <title>{% block title %}Title{% endblock %}</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <link rel='stylesheet' type='text/css' href='/static/css/global.css'></link>
+   <script type='text/javascript'>f = function() {document.getElementById("id_username").focus();}</script>
+    {% block extrahead %}{% endblock %}
+  </head>
+ <body onload=f()>
+ <div id='container'>
+    <div id='top'>
+      <h1>Realtime Voting</h1>
+    </div>
+    {% block content %}{% endblock %}
+ </div>
+ </body>
+</html>

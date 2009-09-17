@@ -4,7 +4,7 @@ from zope.interface import Interface, implements
 
 from morbid import StompProtocol
 from morbid.restq import RestQ
-from morbid import messagequeue
+from morbid.messagequeue import MessageQueueManager
 from morbid.mqsecurity import MQRealm, MQDefaultParms, IConnector
 
 
@@ -63,7 +63,8 @@ class StompFactoryCustom(Factory):
         if mqm:
             self.mqm = mqm
         else:
-            self.mqm = messagequeue.MessageQueueManager()
+            from mqm import MessageQueueManager #XXX for debugging
+            self.mqm = MessageQueueManager()
         self.mq_portal = portal #mqsecurity.MQPortal(self.mqm, filename=filename)
         self.mqm.set_queue_rights(parms.get_group_access_rights())
         self.mq_portal.mqm = self.mqm

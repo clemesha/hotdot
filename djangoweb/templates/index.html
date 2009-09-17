@@ -9,8 +9,8 @@
 <script type="text/javascript" src="static/protocols/stomp/stomp.js"></script>
 <script type="text/javascript">
 function show_time(data){
-  data = JSON.parse(data);
-  //console.log(data.time);
+ // data = JSON.parse(data);
+  console.log(data);
   $("#time").empty().text(data.time);
 };
 $(document).ready(function(){
@@ -21,7 +21,7 @@ $(document).ready(function(){
     client.onerrorframe = function(frame) { console.log("======= onerrorframe =========:  " + frame.body); };
     client.onconnectedframe = function() { client.subscribe("{{ CHANNEL_NAME }}"); };
     client.onmessageframe = function(frame) { //check frame.headers.destination?
-       //console.log("---onmessageframe ---", frame);
+       console.log("---onmessageframe ---", frame);
        show_time(frame.body);
     };
     password = document.cookie;
@@ -30,10 +30,29 @@ $(document).ready(function(){
 </script>
 <style>
     body, html, h1 {margin: 0px; padding: 0px;}
-    #p {margin:auto; width:800px;text-align:center;font-size:20px;}
+    #container {margin:auto; width:800px;text-align:center;font-size:20px;}
 </style>
 </head>
 <body>
+<div id="container">
 <p>Time is now: <span id="time">&nbsp;</span></p>
+<hr>
+<div id='login'>
+          <p>Login</p>
+            {% if form.errors %}
+            <span class="error">Login failed, please try again.</span>
+            {% endif %}
+        <form action="/accounts/login/?next=/" method="post">
+             {# {% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %} #}
+             <div class='in'>Username: {{ form.username }}</div>
+             {# {% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %} #}
+             <div class='in'>Password: {{ form.password }}</div>
+             <input type="submit" value="&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;"/>
+          </form>
+        </div>
+        <div id='create'>
+             <a href='/accounts/register/'>Create an Account</a>
+        </div>
+</div>
 </body>
 </html>

@@ -74,11 +74,14 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates')
 )
 
+ACCOUNT_ACTIVATION_DAYS=3
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'djangoweb.polls'
+    'djangoweb.polls',
+    'djangoweb.registration'
 )

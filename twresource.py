@@ -29,7 +29,6 @@ class RootResource(resource.Resource):
         self.wsgi_resource = wsgi_resource
 
     def getChild(self, path, request):
-        print "***getChild*** ", path, request.prepath, request.postpath
         path0 = request.prepath.pop(0)
         request.postpath.insert(0, path0)
         return self.wsgi_resource

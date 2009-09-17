@@ -28,13 +28,15 @@ from twresource import get_root_resource
 
 root = get_root_resource()
 root.putChild("static", static.File("static"))
-http_factory = server.Site(root)
+http_factory = server.Site(root, logPath="http.log")
 
 
 #Twisted Application boilerplate:
 application = service.Application('orbited-dissected')
 serviceCollection = service.IServiceCollection(application)
 
+
+#Orbited:
 proxy_factory = proxy.ProxyFactory()
 internet.GenericServer(cometsession.Port, factory=proxy_factory, resource=root, childName="tcp", interface=INTERFACE).setServiceParent(serviceCollection)
 
@@ -44,8 +46,8 @@ stomp_factory = get_stomp_factory()
 internet.TCPServer(STOMP_PORT, stomp_factory, interface=INTERFACE).setServiceParent(serviceCollection)
 
 #Stomp Produce Data Connect:
-produce_data_factory = ProduceData(channel_name=CHANNEL_NAME, push_interval=INTERVAL)
-internet.TCPClient(INTERFACE, STOMP_PORT, produce_data_factory).setServiceParent(serviceCollection)
+#produce_data_factory = ProduceData(channel_name=CHANNEL_NAME, push_interval=INTERVAL)
+#internet.TCPClient(INTERFACE, STOMP_PORT, produce_data_factory).setServiceParent(serviceCollection)
 
 #Static resources
 internet.TCPServer(STATIC_PORT, http_factory, interface=INTERFACE).setServiceParent(serviceCollection)
