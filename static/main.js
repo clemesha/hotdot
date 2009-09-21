@@ -33,7 +33,7 @@ $(document).ready(function(){
        console.log("---onmessageframe ---", frame);
        show_time(frame.body);
     };
-    password = document.cookie;
-    client.connect(HOST, STOMP_PORT, "some_user", password);
+    var cookie = $.cookie(SESSION_COOKIE_NAME);
+    client.connect(HOST, STOMP_PORT, USERNAME, cookie);
 });
 
