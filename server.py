@@ -6,7 +6,6 @@ from twisted.web import static, resource, server
 from twisted.application import internet, service
 
 from morbid import StompFactory
-from stomp_produce import ProduceData
 from stompfactory import get_stomp_factory
 
 # Config
@@ -44,10 +43,6 @@ internet.GenericServer(cometsession.Port, factory=proxy_factory, resource=root, 
 stomp_factory = get_stomp_factory()
 #stomp_factory = StompFactory(mqm=None, filename=None, rqaddr=None, verbose=True)
 internet.TCPServer(STOMP_PORT, stomp_factory, interface=INTERFACE).setServiceParent(serviceCollection)
-
-#Stomp Produce Data Connect:
-#produce_data_factory = ProduceData(channel_name=CHANNEL_NAME, push_interval=INTERVAL)
-#internet.TCPClient(INTERFACE, STOMP_PORT, produce_data_factory).setServiceParent(serviceCollection)
 
 #Static resources
 internet.TCPServer(STATIC_PORT, http_factory, interface=INTERFACE).setServiceParent(serviceCollection)
