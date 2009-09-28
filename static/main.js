@@ -8,9 +8,13 @@ function quit_handlers(client) {
     /*The below need to occur at 'onbeforeunload', 
     NOT at window unload.*/ 
     //XXX ask User if they want to leave here?
-        client.unsubscribe(CHANNEL_NAME);
         client.disconnect();
+        $("#logout").animate({opacity:1.0}, 2000);
     };
+    $(window).unload(function() {
+        //client.disconnect();
+        //$("#logout").animate({opacity:1.0}, 1000);
+    });
 }
 
 $(document).ready(function(){

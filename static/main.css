@@ -14,3 +14,6 @@ body, html, h1 {
     text-align:center;
     font-size:20px;
 }
+#logout {
+    opacity:0.0;
+}

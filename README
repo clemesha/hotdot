@@ -5,6 +5,15 @@ Core components to run Orbited as a Twisted Service,
 using STOMP as the example protocol.
 
 
+Install
+-------
+
+Get the Twisted Trunk:
+    $ svn co svn://svn.twistedmatrix.com/svn/Twisted/trunk TwistedTrunk
+
+Install deps:
+    pip -E dot_env install orbited django
+
 Usage
 -----
 In the directory 'djangoweb', type:
