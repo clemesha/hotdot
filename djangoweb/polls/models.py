@@ -2,25 +2,24 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Poll(models.Model):
-    """A Poll with ChoiceA or ChoiceB and a Permissions system.
+    """A Poll with Pitches.
 
     `owner`: The User that creates the poll. Only User that can *delete* it.
-    `collaborators`: Other Users that can *modify* the choices.
-    `voters`: All Users that can *vote* (view). Empty implies *all Users*.
 
-    TODO: Make `choice_a` and `choice_b` revisioned.
+    TODO: Make the `pitchs` revisioned.
     """
-    guid = models.CharField(max_length=32, unique=True, editable=False) #needs to be globally unique
-    owner = models.ForeignKey(User)
-    collaborators = models.ManyToManyField(User, blank=True, related_name='poll_collaborator')
-    voters = models.ManyToManyField(User, blank=True, related_name='poll_voter')
-    choice_a = models.CharField(max_length=100) 
-    choice_b = models.CharField(max_length=100)
-    pub_date = models.DateTimeField('date published')
+    guid = models.CharField(max_length=32, unique=True, editable=False) #md5 hash of `question`
+    owner = models.ForeignKey(User) #User who created Poll
+    question = models.CharField(max_length=140) 
+    pitch_a = models.CharField(max_length=140) 
+    pitch_b = models.CharField(max_length=140)
+    created_time = models.DateTimeField(auto_now=True)
+    last_modified = models.DateTimeField()
 
 class Vote(models.Model):
     """A User's Vote.
     """
     poll = models.ForeignKey(Poll)
-    choice = models.BooleanField() # choice_a==1  choice_b==0
-    votes = models.IntegerField() #allow more that one vote
+    choice = models.BooleanField() # pitch_a==0  pitch_b==1
+    voter = models.ForeignKey(User) #User who voted, can be Anonymous.
+    
