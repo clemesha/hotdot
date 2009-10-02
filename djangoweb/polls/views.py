@@ -1,6 +1,8 @@
-from django.template import Context, loader
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.conf import settings 
 
 from polls.models import Poll, Vote
 from polls.forms import PollForm
@@ -9,11 +11,28 @@ from datetime import datetime
 from hashlib import md5
 
 
+#dont allow questions that are already url names:
+DISALLOWED_QUESTIONS = ["", "new", "vote"]
+
+
 def index(request):
     users_polls = Poll.objects.filter(owner=request.user).order_by('-created_time')
-    t = loader.get_template('polls/index.html')
-    c = Context({'users_polls':users_polls})
-    return HttpResponse(t.render(c))
+    args = {'users_polls':users_polls}
+    return render_to_response('polls/index.html', args)
+
+def poll(request, question):
+    #XXX check if user is logged in, then enable chat, etc.
+    question = question.replace("+", " ").replace("%2B", " ")
+    question_guid = md5(question).hexdigest()
+    try:
+        poll = Poll.objects.get(guid=question_guid)
+    except Poll.DoesNotExist:
+        raise Http404
+    print question, question_guid, poll
+    args = {"user":request.user, "STOMP_PORT":settings.STOMP_PORT, "CHANNEL_NAME":question_guid, 
+           "HOST":settings.INTERFACE, "SESSION_COOKIE_NAME":settings.SESSION_COOKIE_NAME}
+    return render_to_response('polls/poll.html', args)
+
 
 def new(request):
     """
@@ -35,15 +54,18 @@ def new(request):
                     form.errors.extra = "Please write one Pitch"
             if pitch_a != "":
                 if pitch_b != "":
-                    form.errors.extra = "You can only write one Pitch"
+                    form.errors.extra = "You can only write one Pitch."
                 else: #pitch_a was written
                     vote_choice = 0 #pitch_a==0
             else:
                 vote_choice = 1 #pitch_b==1
+            question = form.cleaned_data["question"]
+            if question in DISALLOWED_QUESTIONS:
+                form.errors.extra = "Invalid Question, please try a different one."
             if not hasattr(form.errors, "extra"):
                 pollinst.owner = request.user
                 pollinst.last_modified = datetime.now()
-                pollinst.guid = md5(form.cleaned_data["question"]).hexdigest()
+                pollinst.guid = md5(question).hexdigest()
                 try:
                     pollinst.save()
                     newvote = Vote(poll=pollinst, choice=vote_choice, voter=request.user)
@@ -53,8 +75,6 @@ def new(request):
                     form.errors.extra = "Your Question already exists, possibly created by another User."
     else:
         form = PollForm()
-    t = loader.get_template('polls/new.html')
-    c = Context({'form':form})
-    return HttpResponse(t.render(c))
-
+    args = {'form':form}
+    return render_to_response('polls/new.html', args)
 

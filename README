@@ -24,3 +24,19 @@ In the directory 'djangoweb', type:
 See Config options in `start.py`, then run:
 
     $ twistd -ny start.py 
+
+
+
+
+Example
+-------
+
+Realtime Voting Both:
+    -Many people voting, chatting, and editing pitches.
+
+
+
+
+
+
+
