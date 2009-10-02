@@ -8,11 +8,7 @@ from views import index
 
 urlpatterns = patterns('',
     (r'^$', index),
-    (r'^/polls$', 'djangoweb.polls.views.index'),
-    (r'^polls/(?P<poll_id>\d+)/$', 'djangoweb.polls.views.detail'),
-    #(r'^polls/(?P<poll_id>\d+)/results/$', 'djangoweb.polls.views.results'),
-    #(r'^polls/(?P<poll_id>\d+)/vote/$', 'djangoweb.polls.views.vote'),
+    (r'^polls/', include('djangoweb.polls.urls')),
     (r'^accounts/', include('djangoweb.registration.urls')),
-    # Uncomment the next line to enable the admin:
     (r'^admin/(.*)', admin.site.root),
 )

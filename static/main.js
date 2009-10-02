@@ -9,7 +9,8 @@ function quit_handlers(client) {
     NOT at window unload.*/ 
     //XXX ask User if they want to leave here?
         client.disconnect();
-        $("#logout").animate({opacity:1.0}, 2000);
+        //Time-filler function to let client correctly disconnect:
+        $("#logout").animate({opacity:1.0}, 1000);
     };
     $(window).unload(function() {
         //client.disconnect();

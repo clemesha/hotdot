@@ -38,7 +38,6 @@ class DatabaseChecker(object):
         #XXX run in deferToThread?
         try:
             session = Session.objects.get(session_key=cookie)
-            print "sssssssssssss ", session
         except DoesNotExist:
             return None
         if session.expire_date > datetime.now():

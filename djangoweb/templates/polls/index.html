@@ -1,10 +1,9 @@
-{% if latest_poll_list %}
+{% if users_polls %}
     <ul>
-    {% for poll in latest_poll_list %}
+    {% for poll in users_polls %}
         <li>{{ poll.question }}</li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>No polls are available.</p>
+    <p>You have created no polls.</p>
 {% endif %}
-

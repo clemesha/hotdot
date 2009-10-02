@@ -1,0 +1,8 @@
+<form action="" method="POST">
+{% if form.errors.extra %}
+    <p class="extra_errors">{{ form.errors.extra }}</p>
+{% endif %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
