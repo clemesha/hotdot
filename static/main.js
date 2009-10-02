@@ -35,8 +35,9 @@ $(document).ready(function(){
     };
 
     client.onmessageframe = function(frame) { //check frame.headers.destination?
-       console.log("---onmessageframe ---", frame);
-       show_time(frame.body);
+        console.log("---onmessageframe ---", frame);
+        var msg = JSON.parse(frame.body);
+        chat_handle_message(msg);
     };
     var cookie = $.cookie(SESSION_COOKIE_NAME);
     client.connect(HOST, STOMP_PORT, USERNAME, cookie);
