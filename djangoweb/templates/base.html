@@ -1,18 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
- <head>
-   <title>{% block title %}Title{% endblock %}</title>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <link rel='stylesheet' type='text/css' href='/static/css/global.css'></link>
-   <script type='text/javascript'>f = function() {document.getElementById("id_username").focus();}</script>
+  <head>
+    <title>{% block title %}Realtime Voting - A complete Django-Orbited-Twisted example{% endblock %}</title>
+    <meta name="description" content="Realtime Voting - A complete Django-Orbited-Twisted example">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/static/css/blueprint/screen.css" type="text/css" media="screen, projection">
+    <!--[if IE]><link rel="stylesheet" href="/static/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+    <link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen, projection">
     {% block extrahead %}{% endblock %}
   </head>
- <body onload=f()>
- <div id='container'>
-    <div id='top'>
-      <h1>Realtime Voting</h1>
-    </div>
+ <body>
+
+   {% if not user.is_anonymous %}
+    <p id="topbar">Welcome <b>{{ user }}</b> <a href="/polls/">My Dashboard</a><a href="/accounts/logout/">Logout</a></p>
+   {% else %}
+    <p id="topbar">Welcome! <a href="/accounts/login/">Login</a><a href="/accounts/register/">Create an account to Add & Edit Polls</a></p>
+   {% endif %}
+
+    <div id='container' class='container'>
     {% block content %}{% endblock %}
- </div>
+    </div>
+
  </body>
+{% block extrafooter %}{% endblock %}
 </html>

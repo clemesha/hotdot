@@ -139,7 +139,7 @@ class MessageQueueManager(object):
         self.message_queues[dest_name].subscribe(proto)
     
     def send_message(self, proto, dest_name, message):
-        #print "mqm - send - P, D, M", proto, dest_name, message
+        print "mqm - send_message - P, D, M", proto, dest_name, message
         self.create_queue(proto, dest_name)
         self.test_queue_rights(proto.get_groups(), dest_name, 'w')
         if not isinstance(message, tuple):

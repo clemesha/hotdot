@@ -8,7 +8,7 @@ class Poll(models.Model):
 
     TODO: Make the `pitchs` revisioned.
     """
-    guid = models.CharField(max_length=32, unique=True) #md5 hash of `question`
+    guid = models.CharField(max_length=32, unique=True) #md5 hash of `question.lower()`
     owner = models.ForeignKey(User) #User who created Poll
     question = models.CharField(max_length=140) 
     pitch_a = models.CharField(max_length=140, blank=True) 

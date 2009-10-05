@@ -6,6 +6,7 @@ from django.conf import settings
 
 from polls.models import Poll, Vote
 from polls.forms import PollForm
+from polls.utility import create_poll_guid
 
 from datetime import datetime
 from hashlib import md5
@@ -14,26 +15,26 @@ from hashlib import md5
 #dont allow questions that are already url names:
 DISALLOWED_QUESTIONS = ["", "new", "vote"]
 
-
+@login_required
 def index(request):
     users_polls = Poll.objects.filter(owner=request.user).order_by('-created_time')
-    args = {'users_polls':users_polls}
+    args = {"users_polls":users_polls, "user":request.user, }
     return render_to_response('polls/index.html', args)
 
+@login_required
 def poll(request, question):
     #XXX check if user is logged in, then enable chat, etc.
-    question = question.replace("+", " ").replace("%2B", " ")
-    question_guid = md5(question).hexdigest()
+    question_guid = create_poll_guid(question)
     try:
         poll = Poll.objects.get(guid=question_guid)
     except Poll.DoesNotExist:
         raise Http404
-    print question, question_guid, poll
-    args = {"user":request.user, "STOMP_PORT":settings.STOMP_PORT, "CHANNEL_NAME":question_guid, 
-           "HOST":settings.INTERFACE, "SESSION_COOKIE_NAME":settings.SESSION_COOKIE_NAME}
+    args = {"poll":poll, "STOMP_PORT":settings.STOMP_PORT, "CHANNEL_NAME":question_guid, "HOST":settings.INTERFACE, 
+            "SESSION_COOKIE_NAME":settings.SESSION_COOKIE_NAME, "user":request.user}
     return render_to_response('polls/poll.html', args)
 
 
+@login_required
 def new(request):
     """
     Create a new Poll, with 1 initial "Pitch" for
@@ -65,12 +66,12 @@ def new(request):
             if not hasattr(form.errors, "extra"):
                 pollinst.owner = request.user
                 pollinst.last_modified = datetime.now()
-                pollinst.guid = md5(question).hexdigest()
+                pollinst.guid = create_poll_guid(question)
                 try:
                     pollinst.save()
                     newvote = Vote(poll=pollinst, choice=vote_choice, voter=request.user)
                     newvote.save()
-                    return HttpResponseRedirect('/polls') # Redirect after POST
+                    return HttpResponseRedirect('/polls/') # Redirect after POST
                 except IntegrityError:
                     form.errors.extra = "Your Question already exists, possibly created by another User."
     else:

@@ -1,9 +1,15 @@
-{% if users_polls %}
-    <ul>
-    {% for poll in users_polls %}
-        <li>{{ poll.question }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>You have created no polls.</p>
-{% endif %}
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if users_polls %}
+        <ul>
+        {% for poll in users_polls %}
+            <li>{{ poll.question }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have created no polls.</p>
+    {% endif %}
+
+{% endblock %}
