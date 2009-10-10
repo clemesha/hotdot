@@ -18,8 +18,22 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Realtime Voting</h1>
-    <h2>Question: </i>{{poll.question}}</i></h2>
+    <h1>Poll: <i>{{ poll.question }}</i></h1><br><br>
+
+    <!--
+    TODO:
+        - Attach event to editing: send messages, disallow edits for other + timeout
+        - Save on  button? Keep revisions. Show in pop-up window.
+        - Not logged in: Ajax vote, logged in: Push Vote.
+    -->
+    <h2>Pitch A:<input type="button" value="Vote for A"></input><br>
+        <textarea>{{ poll.pitch_a|default:"None (Login to add one)" }}</textarea>
+    </h2><br>
+
+    <h2>Pitch B:<input type="button" value="Vote for B"></input><br>
+        <textarea>{{ poll.pitch_b|default:"None (Login to add one)" }}</textarea>
+    </h2><br><br>
+
     <h3><a href="/polls/new">Create a New Poll</a></h3>
 {% endblock %}
 

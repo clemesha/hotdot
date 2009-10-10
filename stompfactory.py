@@ -1,12 +1,13 @@
 import sys
 import os
 from datetime import datetime
+
 from twisted.cred import portal, checkers, credentials, error
 from twisted.internet.protocol import Factory
 from zope.interface import Interface, implements
 
+from restq import RestQ
 from morbid import StompProtocol
-from morbid.restq import RestQ
 from morbid.messagequeue import MessageQueueManager
 from morbid.mqsecurity import MQRealm, MQDefaultParms, IConnector
 
@@ -23,6 +24,7 @@ class DatabaseChecker(object):
 
     def requestAvatarId(self, creds):
         username = self._runQuery(username=creds.username, cookie=creds.password)
+        print "requestAvatarId creds=>", creds
         if username is None: 
             return error.UnauthorizedLogin('Incorrect credentials')
         else:
@@ -72,7 +74,6 @@ class StompPortalCustom(portal.Portal):
         d = self.login(creds, None, IConnector)
         return d
 
-
 class StompFactoryCustom(Factory):
     """
     A custom StompFactory that allows any Portal.
@@ -85,7 +86,7 @@ class StompFactoryCustom(Factory):
 
     def __init__(self, mqm=None, portal=None, parms=None, rqaddr=None, verbose=False):
         self.id = 0
-        self.restq = RestQ(rqaddr)
+        self.restq = RestQ() #(rqaddr)
         self.verbose = verbose
         if mqm:
             self.mqm = mqm
@@ -102,5 +103,4 @@ class StompFactoryCustom(Factory):
 
     def disconnected(self, proto):
         self.mqm.unsubscribe_all_queues(proto)
-
 

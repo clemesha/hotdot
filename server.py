@@ -15,6 +15,7 @@ INTERFACE = "localhost"
 #Runtime config, is there a cleaner way?:
 config.map["[access]"]={(INTERFACE, 9999):"*"}
 STATIC_PORT = 8000
+RESTQ_PROXY_PORT = 5000
 STOMP_PORT = 9999
 CHANNEL_NAME = "/topic/test"
 INTERVAL = 2.0 #seconds
@@ -24,6 +25,7 @@ from orbited import cometsession
 from orbited import proxy
 
 from twresource import get_root_resource
+from restq import RestQMessageProxy
 
 root = get_root_resource()
 root.putChild("static", static.File("static"))
@@ -46,3 +48,8 @@ internet.TCPServer(STOMP_PORT, stomp_factory, interface=INTERFACE).setServicePar
 
 #Static resources
 internet.TCPServer(STATIC_PORT, http_factory, interface=INTERFACE).setServiceParent(serviceCollection)
+
+# RestQMessageProxy
+restq_resource = RestQMessageProxy()
+restq_proxy_factory = server.Site(restq_resource, logPath="restqproxy.log")
+internet.TCPServer(RESTQ_PROXY_PORT, restq_proxy_factory, interface=INTERFACE).setServiceParent(serviceCollection)

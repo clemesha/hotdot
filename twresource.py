@@ -5,6 +5,7 @@ from twisted.web import server, resource, wsgi, static
 from twisted.python import threadpool
 from twisted.internet import reactor
 
+
 # Environment setup for your Django project files:
 sys.path.append("djangoweb")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'djangoweb.settings'
@@ -32,3 +33,4 @@ class RootResource(resource.Resource):
         path0 = request.prepath.pop(0)
         request.postpath.insert(0, path0)
         return self.wsgi_resource
+

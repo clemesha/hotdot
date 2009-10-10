@@ -8,7 +8,7 @@ from django.conf import settings
 from polls.models import Poll
 
 index_info_dict = {
-    'recent_polls':Poll.objects.order_by("-last_modified").all(),
+    'recent_polls':Poll.objects.order_by("-last_modified").all
 }
 
 urlpatterns = patterns('',
