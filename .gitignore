@@ -1,5 +1,6 @@
 *.pyc
 *.log
+*.log.*
 *.db
 *.pid
 TODO

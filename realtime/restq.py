@@ -16,10 +16,9 @@ class RestQ(object):
         #    getPage(rqaddr).addCallback(self.initialize).addErrback(eb(rqaddr))
     
     def _error(self, error):
-        print "!!!!!!!! RestQ error ==== ", error
+        print "!!! RestQ error ====> ", error
 
     def _success(self, raw_data, conn, headers, body):
-        print "_success!!!! ", raw_data, conn, headers, body
         data = json.loads(raw_data)
         #if "allow" in data and data["allow"] == "no":
         #    return (data, None)
@@ -46,7 +45,6 @@ class RestQ(object):
             d = getPage(url, method='POST', postdata=data)
             d.addCallback(self._success, conn, headers, body).addErrback(self._error)
             if cmd in ["connect", "subscribe", "send"]:
-                print "returning ddeeeeeeeeeeeeeeerefdddddddddd"
                 return d
         return defer.succeed((headers, body))
 

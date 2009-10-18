@@ -5,10 +5,8 @@ from twisted.web import server, resource, wsgi, static
 from twisted.python import threadpool
 from twisted.internet import reactor
 
-
-# Environment setup for your Django project files:
-sys.path.append("djangoweb")
-os.environ['DJANGO_SETTINGS_MODULE'] = 'djangoweb.settings'
+#Django's settings.py should exist in the same dir.
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings' 
 from django.core.handlers.wsgi import WSGIHandler
 
 def wsgi_resource():

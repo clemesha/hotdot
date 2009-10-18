@@ -6,7 +6,6 @@ from twisted.web import static, resource, server
 from twisted.application import internet, service
 
 from morbid import StompFactory
-from stompfactory import get_stomp_factory
 
 # Config
 from orbited import logging, config
@@ -20,12 +19,14 @@ STOMP_PORT = 9999
 CHANNEL_NAME = "/topic/test"
 INTERVAL = 2.0 #seconds
 
-#The below depend on logging.setup(...)
+#The below depend on Orbited's logging.setup(...), from above.
 from orbited import cometsession
 from orbited import proxy
 
-from twresource import get_root_resource
-from restq import RestQMessageProxy
+#local imports
+from djangoweb.twisted_wsgi import get_root_resource
+from realtime.stompfactory import get_stomp_factory
+from realtime.restq import RestQMessageProxy
 
 root = get_root_resource()
 root.putChild("static", static.File("static"))

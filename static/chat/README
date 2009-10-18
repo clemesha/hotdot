@@ -1,0 +1,5 @@
+These 2 files, 'chat.css' and 'chat.js' implement stand-alone,
+very basic chat and chat-window functionality. 
+
+They could/should be pulled out in the future to be 
+their own mini-project, aka a jquery plugin. 
