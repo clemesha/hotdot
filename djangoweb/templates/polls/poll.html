@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/static/js/protocols/stomp/stomp.js"></script>
     <script>
         TCPSocket = Orbited.TCPSocket;
+        CHANNEL_ID = "{{ CHANNEL_NAME }}";
         CHANNEL_NAME = "/topic/{{ CHANNEL_NAME }}";
         HOST = "{{ HOST }}";
         STOMP_PORT = {{ STOMP_PORT }};
@@ -26,13 +27,19 @@
         - Save on  button? Keep revisions. Show in pop-up window.
         - Not logged in: Ajax vote, logged in: Push Vote.
     -->
-    <h2>Pitch A:<input type="button" value="Vote for A"></input><br>
+    <div id="pitch_a" class="pitch">
+      <h2>Pitch A <span>({{ votes_a }} votes)</span>:
+        <input id="a" class="vote" type="button" value="Vote for A"></input><br>
+      </h2>
         <textarea>{{ poll.pitch_a|default:"None (Login to add one)" }}</textarea>
-    </h2><br>
+    </div>
 
-    <h2>Pitch B:<input type="button" value="Vote for B"></input><br>
+    <div id="pitch_b" class="pitch">
+    <h2>Pitch B <span>({{ votes_b }} votes)</span>:
+        <input id="b" class="vote" type="button" value="Vote for B"></input><br>
+    </h2> 
         <textarea>{{ poll.pitch_b|default:"None (Login to add one)" }}</textarea>
-    </h2><br><br>
+    </div>
 
     <h3><a href="/polls/new">Create a New Poll</a></h3>
 {% endblock %}

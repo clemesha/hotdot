@@ -7,7 +7,7 @@ TODO:
 
 
 function chat_send_message(msg){
-    fullmsg = {"msg":msg, "from":USERNAME};
+    var fullmsg = {"type":"chat", "msg":msg};
     fullmsg = JSON.stringify(fullmsg); 
     client.send(fullmsg, CHANNEL_NAME);
 };

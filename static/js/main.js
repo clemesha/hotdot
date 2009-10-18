@@ -1,14 +1,19 @@
-function show_time(data){
- // data = JSON.parse(data);
-  console.log(data);
-  $("#time").empty().text(data.time);
-};
+function vote_send_message(){
+    var vote = $(this).attr("id");
+    var fullmsg = {"type":"vote", "vote":vote};
+    fullmsg = JSON.stringify(fullmsg); 
+    client.send(fullmsg, CHANNEL_NAME);
+}
+
+function vote_handle_message(msg){
+    console.log("vote_handle_message=> ", msg);
+}
+
+
 function quit_handlers(client) {
     window.onbeforeunload = function() {
-    /*The below need to occur at 'onbeforeunload', 
-    NOT at window unload.*/ 
-    //XXX ask User if they want to leave here?
-        client.disconnect();
+    /*The below need to occur at 'onbeforeunload', NOT at window unload.*/ 
+        client.disconnect(); //XXX ask User if they want to leave here?
         //Time-filler function to let client correctly disconnect:
         $("#logout").animate({opacity:1.0}, 1000);
     };
@@ -37,9 +42,19 @@ $(document).ready(function(){
     client.onmessageframe = function(frame) { //check frame.headers.destination?
         console.log("---onmessageframe ---", frame);
         var msg = JSON.parse(frame.body);
-        chat_handle_message(msg);
+        switch(msg.type) {
+            case "chat":
+                chat_handle_message(msg);
+                break;
+            case "vote":
+                vote_handle_message(msg);
+                break;
+            default:
+                console.log("Unhandled msg.type=> ", msg.type);
+        }
     };
     var cookie = $.cookie(SESSION_COOKIE_NAME);
     client.connect(HOST, STOMP_PORT, USERNAME, cookie);
+    $(".vote").click(vote_send_message);
 });
 
