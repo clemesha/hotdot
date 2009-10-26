@@ -16,8 +16,6 @@ config.map["[access]"]={(INTERFACE, 9999):"*"}
 STATIC_PORT = 8000
 RESTQ_PROXY_PORT = 5000
 STOMP_PORT = 9999
-CHANNEL_NAME = "/topic/test"
-INTERVAL = 2.0 #seconds
 
 #The below depend on Orbited's logging.setup(...), from above.
 from orbited import cometsession

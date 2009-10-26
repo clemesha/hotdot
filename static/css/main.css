@@ -1,19 +1,41 @@
-body, html, h1 {
-    margin: 0px; 
-    padding: 0px;
-}
-#topbar {
-    margin:2px;
-    margin-right:10px; 
-    border-bottom:#CCC; 
+ul#nav {
+    position:relative;
+    top:-15px;
     text-align:right
-};
-#container {
-    margin:auto; 
-    width:800px;
+}
+ul#nav span {
+    font-size:11px;
+    color:#11138F;
+    padding:0px 2px 0px 6px;
+    position:relative;
+    top:0px;
+}
+ul#nav li {
+    display:inline;
+    text-decoration-none;
+}
+ul#nav li a {
+    color:#11138F;
+}
+h1#pollquestion {
     text-align:center;
+    margin:40px 0px 20px 0px;
+}
+    
+.pitch {
+    text-align:center;
+}
+.pitch h2 {
+    text-align:normal;
+    margin:0px;
     font-size:20px;
 }
+.pitch textarea {
+    width:300px;
+    height:100px;
+}
+
+
 #logout {
     opacity:0.0;
 }

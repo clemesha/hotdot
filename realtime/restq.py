@@ -54,39 +54,6 @@ class RestQ(object):
             self.cbs[key] = value
 
 
-def handle_send(msg, username, channel_id):
-    msg = json.loads(msg)
-    msgtype = msg.get("type")
-    if msgtype is None:
-        msg.update({"error":"Missing message type"})
-    if msgtype == "chat":
-        msg.update({"from":username})
-    if msgtype == "vote":
-        msg.update({"total":9001})
-    print "handle_send msg=>", msg
-    return msg
-
-def handle_subscribe(msg, username, channel_id):
-    print "=handle_subscribe= ", msg, username, channel_id
-    return msg
-
-def handle_connect(msg, username, channel_id):
-    print "=handle_connect= ", msg, username, channel_id
-    return msg
-
-def handle_disconnect(msg, username, channel_id):
-    print "=handle_disconnect= ", msg, username, channel_id
-    return msg
-
-HANDLERS = {
-    "send":handle_send,
-    "subscribe":handle_subscribe,
-    "connect":handle_connect,
-    "disconnect":handle_disconnect
-}
-    
-        
-
 # The below class is motivated by the 
 #'RestQ' monitoring discussion here: 
 # http://orbited.org/wiki/Monitoring
@@ -99,9 +66,13 @@ class RestQMessageProxy(resource.Resource):
     such as 'type' and 'from'.
     """
     
-    def __init__(self, handlers=HANDLERS):
+    def __init__(self, handlers=None):
         resource.Resource.__init__(self)
-        self.handlers = handlers
+        if handlers is None:
+            from message_handlers import HANDLERS
+            self.handlers = HANDLERS
+        else:
+            self.handlers = handlers
 
     def getChild(self, path, request):
         print "RestQMessageProxy.getChild (path, request) => ", path, request

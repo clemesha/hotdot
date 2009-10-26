@@ -1,12 +1,16 @@
 function vote_send_message(){
-    var vote = $(this).attr("id");
-    var fullmsg = {"type":"vote", "vote":vote};
+    var choice = $(this).attr("id");
+    var fullmsg = {"type":"vote", "choice":choice};
     fullmsg = JSON.stringify(fullmsg); 
     client.send(fullmsg, CHANNEL_NAME);
 }
 
 function vote_handle_message(msg){
-    console.log("vote_handle_message=> ", msg);
+    var choice = msg.choice;
+    var target = $("#votes_"+choice);
+    var current = Number(target.text())+1;
+    console.log("vote_handle_message=> ", choice, current);
+    target.text(current);
 }
 
 
@@ -51,6 +55,7 @@ $(document).ready(function(){
                 break;
             default:
                 console.log("Unhandled msg.type=> ", msg.type);
+                break;
         }
     };
     var cookie = $.cookie(SESSION_COOKIE_NAME);

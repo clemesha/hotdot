@@ -12,9 +12,18 @@
  <body>
 
    {% if not user.is_anonymous %}
-    <p id="topbar">Welcome <b>{{ user }}</b> <a href="/polls/">My Dashboard</a><a href="/accounts/logout/">Logout</a></p>
+    <ul id="nav">
+      <li>Welcome <b>{{ user }}</b>!</li><span>|</span>
+      <li><a href="/polls/new">Create a New Poll</a></li><span>|</span>
+      <li><a href="/polls/">Dashboard</a></li><span>|</span>
+      <li><a href="/accounts/logout/">Logout</a></li>
+    </ul>
    {% else %}
-    <p id="topbar">Welcome! <a href="/accounts/login/">Login</a><a href="/accounts/register/">Create an account to Add & Edit Polls</a></p>
+    <ul id="nav">
+      <li>Welcome!</li><span>|</span>
+      <li><a href="/accounts/login/">Login</a></li><span>|</span>
+      <li><a href="/accounts/register/">Add/Edit Polls (create an account)</a></li>
+    </ul>
    {% endif %}
 
     <div id='container' class='container'>

@@ -29,8 +29,12 @@ def poll(request, question):
         poll = Poll.objects.get(guid=question_guid)
     except Poll.DoesNotExist:
         raise Http404
-    args = {"poll":poll, "STOMP_PORT":settings.STOMP_PORT, "CHANNEL_NAME":question_guid, "HOST":settings.INTERFACE, 
-            "SESSION_COOKIE_NAME":settings.SESSION_COOKIE_NAME, "user":request.user}
+    #XXX optimize queries:
+    votes_a = Vote.objects.filter(poll__guid=question_guid, choice="a").count()
+    votes_b = Vote.objects.filter(poll__guid=question_guid, choice="b").count()
+    args = {"poll":poll, "votes_a":votes_a, "votes_b":votes_b, "user":request.user,
+            "STOMP_PORT":settings.STOMP_PORT, "CHANNEL_NAME":question_guid, "HOST":settings.INTERFACE, 
+            "SESSION_COOKIE_NAME":settings.SESSION_COOKIE_NAME}
     return render_to_response('polls/poll.html', args)
 
 

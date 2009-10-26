@@ -20,6 +20,7 @@ class Vote(models.Model):
     """A User's Vote.
     """
     poll = models.ForeignKey(Poll)
-    choice = models.BooleanField() # pitch_a==0  pitch_b==1
-    voter = models.ForeignKey(User) #User who voted, can be Anonymous.
+    choice = models.CharField(max_length=1)
+    voter = models.ForeignKey(User) #TODO: can be Anonymous.
+    vote_time = models.DateTimeField(auto_now=True)
     

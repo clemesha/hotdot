@@ -3,7 +3,6 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 STATIC_PORT = 8000
 STOMP_PORT = 9999
 INTERFACE = "localhost"
-CHANNEL_NAME = "/topic/test"
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

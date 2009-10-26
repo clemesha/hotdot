@@ -7,6 +7,4 @@
     {% for poll in recent_polls %}
         <p><a href="/polls/{{ poll.question|slugify }}">{{ poll.question }}</a></p>
     {% endfor %}
-
-    <h3><a href="/polls/new">Create a New Poll</a></h3>
 {% endblock %}
