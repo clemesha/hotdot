@@ -8,9 +8,15 @@ from django.contrib.auth.models import User
 from djangoweb.polls.models import Poll, Vote
 
 
-import simplejson as json
-
-
+try:
+    # 2.6 will have a json module in the stdlib
+    import json
+except ImportError:
+    try:
+        # simplejson is the thing from which json was derived anyway...
+        import simplejson as json
+    except ImportError:
+        print "No suitable json library found, see INSTALL.txt"
 
 #TODO: Generalize the:
 # 1) Creation of message handlers
@@ -70,8 +76,8 @@ HANDLERS = {
     "connect":handle_connect,
     "disconnect":handle_disconnect
 }
- 
 
-   
-        
+
+
+
 
