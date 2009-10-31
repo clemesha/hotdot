@@ -2,7 +2,15 @@ from twisted.internet import defer
 from twisted.web import resource
 from twisted.web.client import getPage
 
-import simplejson as json
+try:
+    # 2.6 will have a json module in the stdlib
+    import json
+except ImportError:
+    try:
+        # simplejson is the thing from which json was derived anyway...
+        import simplejson as json
+    except ImportError:
+        print "No suitable json library found, see INSTALL.txt"
 
 class RestQ(object):
     def __init__(self, port=5000, rqaddr='http://localhost', handlers=None):
@@ -14,7 +22,7 @@ class RestQ(object):
                              handler in self.handlers])
         #if rqaddr:
         #    getPage(rqaddr).addCallback(self.initialize).addErrback(eb(rqaddr))
-    
+
     def _error(self, error):
         print "!!! RestQ error ====> ", error
 
@@ -54,8 +62,8 @@ class RestQ(object):
             self.cbs[key] = value
 
 
-# The below class is motivated by the 
-#'RestQ' monitoring discussion here: 
+# The below class is motivated by the
+#'RestQ' monitoring discussion here:
 # http://orbited.org/wiki/Monitoring
 class RestQMessageProxy(resource.Resource):
     """Message Proxy that has the ability to inspect
@@ -65,7 +73,7 @@ class RestQMessageProxy(resource.Resource):
     TODO: standize a set of message attributes,
     such as 'type' and 'from'.
     """
-    
+
     def __init__(self, handlers=None):
         resource.Resource.__init__(self)
         if handlers is None:
