@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %} Create an Accout{% endblock %}
+{% block title %}Create an Accout{% endblock %}
 
 {% block content %}
 
-  {#{% if form.errors %}<p class="error">Please correct the errors below: {{ form.non_field_errors }}</p>{% endif %}#}
-
-  <h2 id='createh2'>Create an account</h1>
+  <div id="header" class="span-24 last"><h1>Create an Account</h1></div>
   
+  <div id="container" class="container"> 
+  {#{% if form.errors %}<p class="error">Please correct the errors below: {{ form.non_field_errors }}</p>{% endif %}#}
   <form id='createform' method="post" action="">
     <p>
-      <label for="id_username">Username:</label>
-      {{ form.username }}
+      <label for="id_username">Username:</label> {{ form.username }}
       {% if form.username.errors %}
         <span class="error">{{ form.username.errors.as_text }}</span>
       {% endif %}
@@ -39,7 +38,11 @@
     </p>
     <p class="submit"><input type="submit" value="Create Account"></p>
   </form>
-  
+ 
+    <p>Already have an account? <a href="/accounts/login/">Sign In here</a>.</p>
+
+  </div><!-- end #container -->
+
 {% endblock %}
 
 

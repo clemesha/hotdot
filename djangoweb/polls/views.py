@@ -16,12 +16,6 @@ from hashlib import md5
 DISALLOWED_QUESTIONS = ["", "new", "vote"]
 
 @login_required
-def index(request):
-    users_polls = Poll.objects.filter(owner=request.user).order_by('-created_time')
-    args = {"users_polls":users_polls, "user":request.user, }
-    return render_to_response('polls/index.html', args)
-
-@login_required
 def poll(request, question):
     #XXX check if user is logged in, then enable chat, etc.
     question_guid = create_poll_guid(question)
@@ -75,11 +69,11 @@ def new(request):
                     pollinst.save()
                     newvote = Vote(poll=pollinst, choice=vote_choice, voter=request.user)
                     newvote.save()
-                    return HttpResponseRedirect('/polls/') # Redirect after POST
+                    return HttpResponseRedirect('/') # Redirect after POST
                 except IntegrityError:
                     form.errors.extra = "Your Question already exists, possibly created by another User."
     else:
         form = PollForm()
-    args = {'form':form}
-    return render_to_response('polls/new.html', args)
+    args = {"form":form, "user":request.user}
+    return render_to_response("polls/new.html", args)
 

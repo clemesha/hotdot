@@ -1,27 +1,30 @@
-{# {% extends "registration/base.html" %} #}
+{% extends "base.html" %}
 
 {% block title %}Log in{% endblock %}
 
-{% block content %}
 
-<h1>Log in</h1>
+    {% block content %}
 
-{% if form.errors %}
-<p class="error">Please correct the errors below:</p>
-{% endif %}
+    <div id="header" class="span-24 last"><h1>Log in</h1></div>
 
-<form method="post" action="?next={{ next|default:"/" }}">
-<dl>
-<dt><label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.username }}</dd>
-<dt><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.password }}</dd>
-<dt><input type="submit" value="Log in" /></dt>
-</dl>
-</form>
-{% endblock %}
+    <div id="container" class="container"> 
+    {% if form.errors %}
+    <p class="error">Please correct the errors below:</p>
+    {% endif %}
 
-{% block content-related %}
-<p>If you don't have an account, you can <a href="/accounts/register/">sign
-up</a> for one.
-{% endblock %}
+    <form method="post" action="?next={{ next|default:"/" }}">
+    <p>
+        <label for="id_username">Username:</label> {{ form.username }}
+        {% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}
+    </p>
+    <p>
+      <label for="id_password">Password:</label> {{ form.password }}
+      {% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}
+    </p>
+    <p class="submit"><input type="submit" value="Log In"></p>
+    </form>
+
+    <p>Don't have an account? <a href="/accounts/register/">Create an Account here</a>.</p>
+
+   </div><!-- end #container -->
+   {% endblock %}

@@ -1,10 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Realtime Voting</h1>
     
-    <h2>Recent Polls</h2>
-    {% for poll in recent_polls %}
-        <p><a href="/polls/{{ poll.question|slugify }}">{{ poll.question }}</a></p>
-    {% endfor %}
+  <div id="header" class="span-24 last"><h1>Realtime Voting Both</h1></div>
+
+  <div id="container" class="container"> 
+
+    <div id="polls-recent" class="span-12 polls">
+      <h2>Recent Polls</h2>
+        {% if recent_polls %}
+          {% for poll in recent_polls %}
+            <p><a href="/polls/{{ poll.question|slugify }}">{{ poll.question }}</a></p>
+          {% endfor %}
+        {% else %}
+            <p>No polls have been created.</p>
+        {% endif %}
+    </div>
+
+    <div id="polls-mine" class="span-12 polls last">
+        <h2>My Polls</h2>
+        {% if user.is_authenticated %}
+            {% if users_polls %}
+              {% for poll in users_polls %}
+                 <p><a href="/polls/{{ poll.question|slugify }}">{{ poll.question }}</a></p>
+              {% endfor %}
+            {% else %}
+               <p><a href="/polls/new">Create Your First Poll!</a></p>
+            {% endif %}
+        {% else %}
+            <p><a href="/accounts/login/">Login</a> or <a href="/accounts/register/">Sign up</a> to create your own Polls!</p>
+        {% endif %}
+    </div>
+
+  </div><!-- end #container -->
+
 {% endblock %}

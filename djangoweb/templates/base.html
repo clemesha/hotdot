@@ -15,14 +15,14 @@
     <ul id="nav">
       <li>Welcome <b>{{ user }}</b>!</li><span>|</span>
       <li><a href="/polls/new">Create a New Poll</a></li><span>|</span>
-      <li><a href="/polls/">Dashboard</a></li><span>|</span>
+      <li><a href="/">Home</a></li><span>|</span>
       <li><a href="/accounts/logout/">Logout</a></li>
     </ul>
    {% else %}
     <ul id="nav">
       <li>Welcome!</li><span>|</span>
       <li><a href="/accounts/login/">Login</a></li><span>|</span>
-      <li><a href="/accounts/register/">Add/Edit Polls (create an account)</a></li>
+      <li><a href="/accounts/register/">Sign up to create your own Polls</a></li>
     </ul>
    {% endif %}
 

@@ -9,7 +9,7 @@ function vote_handle_message(msg){
     var choice = msg.choice;
     var target = $("#votes_"+choice);
     var current = Number(target.text())+1;
-    console.log("vote_handle_message=> ", choice, current);
+    //console.log("vote_handle_message=> ", choice, current);
     target.text(current);
 }
 
@@ -34,17 +34,21 @@ $(document).ready(function(){
     };
     client.onclose = function(c) { 
         //XXX Warn User of lost connection. Disallow editing?
-        console.log('Lost Connection, Code: ' + c);
+        //console.log('Lost Connection, Code: ' + c);
     };
-    client.onerror = function(error) { console.log("======= onerror =========: " + error); };
-    client.onerrorframe = function(frame) { console.log("======= onerrorframe =========:  " + frame.body); };
+    client.onerror = function(error) { 
+        //console.log("======= onerror =========: " + error); 
+    };
+    client.onerrorframe = function(frame) { 
+        //console.log("======= onerrorframe =========:  " + frame.body); 
+    };
 
     client.onconnectedframe = function() { 
         client.subscribe(CHANNEL_NAME); 
     };
 
     client.onmessageframe = function(frame) { //check frame.headers.destination?
-        console.log("---onmessageframe ---", frame);
+        //console.log("---onmessageframe ---", frame);
         var msg = JSON.parse(frame.body);
         switch(msg.type) {
             case "chat":
@@ -54,7 +58,7 @@ $(document).ready(function(){
                 vote_handle_message(msg);
                 break;
             default:
-                console.log("Unhandled msg.type=> ", msg.type);
+                //console.log("Unhandled msg.type=> ", msg.type);
                 break;
         }
     };

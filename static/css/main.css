@@ -1,3 +1,13 @@
+#container{
+    text-align:center;
+}
+#header {
+    text-align:center;
+    margin:20px 0px;
+}
+.polls {
+    text-align:center;
+}
 ul#nav {
     position:relative;
     top:-15px;

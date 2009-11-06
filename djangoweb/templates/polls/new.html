@@ -1,8 +1,23 @@
-<form action="" method="POST">
-{% if form.errors.extra %}
-    <p class="extra_errors">{{ form.errors.extra }}</p>
-{% endif %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
-</form>
+{% extends 'base.html' %}
 
+{% block title %}Create a New Poll{% endblock %}
+
+{% block content %}
+    
+  <div id="header" class="span-24 last"><h1>Create a New Poll!</h1></div>
+
+  <div id="container" class="container"> 
+
+    <div id="polls-new" class="span-24 polls">
+        <form action="" method="POST">
+        {% if form.errors.extra %}
+            <p class="extra_errors">{{ form.errors.extra }}</p>
+        {% endif %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+        </form>
+    </div>
+
+  </div><!-- end #container -->
+
+{% endblock %}

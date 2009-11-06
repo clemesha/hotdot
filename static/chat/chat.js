@@ -43,8 +43,7 @@ function chat_handle_typing(ev){
         $(this).val(""); /* Clear the textarea */
         return;
     }
-    mmm = msg;
-    console.log(msg);
+    //console.log(msg);
     $(this).val(""); /* Clear the textarea */
     chat_send_message(msg);
     return false;
