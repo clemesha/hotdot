@@ -7,8 +7,9 @@
   {#{% if form.errors %}<p class="error">Please correct the errors below: {{ form.non_field_errors }}</p>{% endif %}#}
 
   <h2 id='createh2'>Create an account</h1>
-  
+
   <form id='createform' method="post" action="">
+    {% csrf_token %}
     <p>
       <label for="id_username">Username:</label>
       {{ form.username }}
@@ -39,7 +40,7 @@
     </p>
     <p class="submit"><input type="submit" value="Create Account"></p>
   </form>
-  
+
 {% endblock %}
 
 
