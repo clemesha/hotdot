@@ -12,7 +12,8 @@
     {% endif %}
 
     <form method="post" action="?next={{ next|default:"/" }}">
-    {% csrf_token %}
+    {# Uncomment for Django 1.2+: {% csrf_token %} #}
+
     <p>
         <label for="id_username">Username:</label> {{ form.username }}
         {% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}
