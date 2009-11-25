@@ -27,14 +27,14 @@
         - Not logged in: Ajax vote, logged in: Push Vote.
     -->
     <div id="pitch_a" class="pitch span-12">
-      <textarea>{{ poll.pitch_a|default:"None. Add one now!" }}</textarea>
+      <textarea>{{ pitch_a.content|default:"None. Add one now!" }}</textarea>
       <h2>Pitch A (<span id="votes_a">{{ votes_a }}</span> vote{{ votes_a|pluralize }}):
         <input id="a" class="vote" type="button" value="Vote for A"></input><br>
       </h2>
     </div>
 
     <div id="pitch_b" class="pitch span-12 last">
-      <textarea>{{ poll.pitch_b|default:"None. Add one now!" }}</textarea>
+      <textarea>{{ pitch_b.content|default:"None. Add one now!" }}</textarea>
       <h2>Pitch B (<span id="votes_b">{{ votes_b }}</span> vote{{ votes_b|pluralize }}):
         <input id="b" class="vote" type="button" value="Vote for B"></input><br>
       </h2> 

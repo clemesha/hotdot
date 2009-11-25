@@ -10,11 +10,18 @@
 
     <div id="polls-new" class="span-24 polls">
         <form action="" method="POST">
-        {% if form.errors.extra %}
-            <p class="extra_errors">{{ form.errors.extra }}</p>
+        {% if poll_form.errors.extra %}
+            <p class="extra_errors">{{ poll_form.errors.extra }}</p>
         {% endif %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />
+        <p><b>Your Poll:</b>
+            <div class="entry">{{ poll_form.question }}</div>
+            <div class="tip">(Make it short, sweet, and controversial!)</div>
+        </p>
+        <p><b>Your Pitch:</b>
+            <div class="entry">{{ pitch_form.content }}</div>
+            <div class="tip">(Convince others to your side!)</div>
+        </p>
+        <p> <input type="submit" value="Submit" /></p>
         </form>
     </div>
 

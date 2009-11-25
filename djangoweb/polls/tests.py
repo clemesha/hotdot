@@ -1,25 +1,67 @@
 import unittest
-from datetime import datetime
 from django.contrib.auth.models import User
-from polls.models import Poll
+from django.db import IntegrityError
+from polls.models import Pitch, Poll, Vote, PitchEditRevision
 from polls.utility import create_poll_guid
 
 class PollCreateTestCase(unittest.TestCase):
     def setUp(self):
-        self.user = User(username="test_user", password="test_password")
+        self.user = User.objects.create_user("user1", "user1@example.com", password="password1")
         self.user.save()
-        self.question = "Is Foo the new bar??"
-        self.pitch = "Foo is better!"
-        self.guid = create_poll_guid(self.question)
-        self.poll = Poll(guid=self.guid, owner=self.user, question=self.question, pitch_a=self.pitch, last_modified=datetime.now())
+        
+        self.second_user = User.objects.create_user("user2", "user2@example.com", password="password2")
+        self.second_user.save()
+
+        self._question = "Is Foo the new Bar?"
+        self._guid = create_poll_guid(self._question)
+        self._choice = "a"
+        self._content = "No, Foo will always be tops!"
+
+        self.poll = Poll(guid=self._guid, owner=self.user, question=self._question)
         self.poll.save()
 
-    def testGetPoll(self):
+        self.pitch = Pitch(poll=self.poll, content=self._content, choice_id=self._choice, editor=self.user)
+        self.pitch.save()
+        self.pitch.vote() #User who creates Pitch automatically Votes for it.
+
+    def tearDown(self):
+        for user in User.objects.all():
+            user.delete()
+
+    def test_newDuplicatePitch(self):
+        """Creating a new Pitch for an existing Poll 
+        with the same 'choice_id' should fail.
+        """
+        self.pitch = Pitch(poll=self.poll, content=self._content, choice_id=self._choice, editor=self.user)
+        try:
+            self.pitch.save()
+        except IntegrityError:
+            return True
+
+    def test_GetPoll(self):
         testslug = "is-foo-the-new-bar"
         testguid = create_poll_guid(testslug)
-        getpoll = Poll.objects.get(guid=testguid)
-        self.assertEquals(self.question, getpoll.question)
-        self.assertEquals(self.user, getpoll.owner)
-        self.assertEquals(self.pitch, getpoll.pitch_a)
-        self.assertEquals("", getpoll.pitch_b)
+        poll = Poll.objects.get(guid=testguid)
+        pitch = poll.pitch_set.get(editor=self.user)
+        self.assertEquals(self._question, poll.question)
+        self.assertEquals(self.user, poll.owner)
+        self.assertEquals(self._content, pitch.content)
 
+    def test_AddNewPitchbyNewUser(self):
+        getpoll = Poll.objects.get(guid=self._guid)
+        new_pitch = Pitch(poll=getpoll, editor=self.second_user, content="Bar will rise and defeat Foo!")
+        new_pitch.save()
+        #print getpoll.pitch_set.all()
+
+    def test_VoteForPitch(self):
+        pitch = Pitch.objects.get(poll__guid=self._guid, choice_id="a")
+        pitch.vote()
+
+    def test_editPitch(self):
+        pitch = Pitch.objects.get(poll__guid=self._guid, choice_id="a")
+        pitch.content = "Foo is best eva."
+        pitch.save()
+        revs = PitchEditRevision.objects.all()
+        self.assertEquals(len(revs), 2)
+        self.assertEquals(revs[0].content, pitch.content)
+        self.assertEquals(revs[1].content, self._content)

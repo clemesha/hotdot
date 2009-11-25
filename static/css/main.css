@@ -45,6 +45,21 @@ h1#pollquestion {
     height:100px;
 }
 
+#polls-new {}
+#polls-new p {
+    font-size:200%;
+    margin:50px 0px 0px 0px;
+}
+#polls-new .tip {
+    font-size:150%;
+    color:#8f8f8f;
+    margin:8px 4px;
+}
+#polls-new div.entry input {
+    padding:4px;
+    width:80%;
+    font-size:200%;
+}
 
 #logout {
     opacity:0.0;

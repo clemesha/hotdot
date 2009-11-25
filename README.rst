@@ -49,6 +49,12 @@ See config options in `server.py`, then run:
     $ twistd -ny server.py #open browser to http://localhost:8000/
 
 
+Tests
+-----
+In the directory 'djangoweb', type:
+    $ django-admin.py test --pythonpath='.' --settings='settings'
+
+
 The details
 -----------
 TODO
