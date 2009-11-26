@@ -16,7 +16,6 @@ urlpatterns = patterns('',
 )
 
 if settings.DEBUG:
-    print os.path.join(settings.PROJECT_PATH, 'static')
     urlpatterns += patterns('',
         (r'^static/(.*)', 'django.views.static.serve', {'document_root': os.path.join("../", 'static')}),
 )

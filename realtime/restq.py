@@ -28,6 +28,7 @@ class RestQ(object):
 
     def _success(self, raw_data, conn, headers, body):
         data = json.loads(raw_data)
+        print " RestQ _success ====> ", data
         #if "allow" in data and data["allow"] == "no":
         #    return (data, None)
         #newBody = data.get('body', body)
@@ -76,11 +77,8 @@ class RestQMessageProxy(resource.Resource):
 
     def __init__(self, handlers=None):
         resource.Resource.__init__(self)
-        if handlers is None:
-            from message_handlers import HANDLERS
-            self.handlers = HANDLERS
-        else:
-            self.handlers = handlers
+        from message_handlers import MESSAGE_HANDLERS
+        self.handlers = MESSAGE_HANDLERS
 
     def getChild(self, path, request):
         print "RestQMessageProxy.getChild (path, request) => ", path, request

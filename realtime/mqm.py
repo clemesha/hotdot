@@ -158,7 +158,7 @@ class MessageQueueManager(object):
         del self.message_queues[dest_name]
         
     def remove_pubsub_child(self, queue_ref):
-        [mq.remove_child(queue_ref) for mq in message_queues 
+        [mq.remove_child(queue_ref) for mq in self.message_queues 
             if isinstance(mq, Pubsub)]
 
     def add_pubsub_child(self, proto, dest_name, child_queue):

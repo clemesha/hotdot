@@ -1,3 +1,16 @@
+"""
+Handlers that inspect, log, and modify
+in-transit Orbited messages.
+
+This file is very application specific,
+so there needs to be a clear way to:
+
+    1. Create custom message handlers
+    2. Overide of message handlers
+    3. "Plug in" custom message handlers
+
+
+"""
 import os
 import sys
 # Environment setup for your Django project files:
@@ -17,12 +30,6 @@ except ImportError:
         import simplejson as json
     except ImportError:
         print "No suitable json library found, see INSTALL.txt"
-
-#TODO: Generalize the:
-# 1) Creation of message handlers
-# 2) Overiding of message handlers
-# 3) "Plug in" configurable/custom message handlers
-
 
 def handle_send(msg, username, channel_id):
     msg = json.loads(msg)
@@ -91,14 +98,9 @@ def handle_disconnect(msg, username, channel_id):
     return msg
 
 
-HANDLERS = {
+MESSAGE_HANDLERS = {
     "send":handle_send,
     "subscribe":handle_subscribe,
     "connect":handle_connect,
     "disconnect":handle_disconnect
 }
-
-
-
-
-

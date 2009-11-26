@@ -1,6 +1,11 @@
 """
-File that demonstates minimal orbited usage.
+Start all server components of Hotdot.
 
+Each component is a 'Twisted Service':
+    - Django (using twisted.web.wsgi)
+    - Orbited (using the orbited 'cometsession' and 'proxy' modules)
+    - Stomp pub/sub server (using the 'morbid' module from MorbidQ)
+    - RestQMessageProxy (Orbited messages filter/logger/modifier)
 """
 from twisted.web import static, resource, server
 from twisted.application import internet, service
@@ -24,31 +29,28 @@ from orbited import proxy
 #local imports
 from djangoweb.twisted_wsgi import get_root_resource
 from realtime.stompfactory import get_stomp_factory
+from realtime.message_handlers import MESSAGE_HANDLERS
 from realtime.restq import RestQMessageProxy
 
-root = get_root_resource()
-root.putChild("static", static.File("static"))
-http_factory = server.Site(root, logPath="http.log")
-
-
-#Twisted Application boilerplate:
-application = service.Application('orbited-dissected')
+#Twisted Application setup:
+application = service.Application('hotdot')
 serviceCollection = service.IServiceCollection(application)
 
-
-#Orbited:
-proxy_factory = proxy.ProxyFactory()
-internet.GenericServer(cometsession.Port, factory=proxy_factory, resource=root, childName="tcp", interface=INTERFACE).setServiceParent(serviceCollection)
-
-#Stomp Listen:
-stomp_factory = get_stomp_factory()
-#stomp_factory = StompFactory(mqm=None, filename=None, rqaddr=None, verbose=True)
-internet.TCPServer(STOMP_PORT, stomp_factory, interface=INTERFACE).setServiceParent(serviceCollection)
-
-#Static resources
+# Django and static file server:
+root_resource = get_root_resource()
+root_resource.putChild("static", static.File("static"))
+http_factory = server.Site(root_resource, logPath="http.log")
 internet.TCPServer(STATIC_PORT, http_factory, interface=INTERFACE).setServiceParent(serviceCollection)
 
-# RestQMessageProxy
-restq_resource = RestQMessageProxy()
+# Orbited server:
+proxy_factory = proxy.ProxyFactory()
+internet.GenericServer(cometsession.Port, factory=proxy_factory, resource=root_resource, childName="tcp", interface=INTERFACE).setServiceParent(serviceCollection)
+
+# Stomp server:
+stomp_factory = get_stomp_factory()
+internet.TCPServer(STOMP_PORT, stomp_factory, interface=INTERFACE).setServiceParent(serviceCollection)
+
+# RestQMessageProxy (message filter/logger/modifier):
+restq_resource = RestQMessageProxy(MESSAGE_HANDLERS)
 restq_proxy_factory = server.Site(restq_resource, logPath="restqproxy.log")
 internet.TCPServer(RESTQ_PROXY_PORT, restq_proxy_factory, interface=INTERFACE).setServiceParent(serviceCollection)
