@@ -31,8 +31,14 @@ except ImportError:
     except ImportError:
         print "No suitable json library found, see INSTALL.txt"
 
+# TODO
+# take all below functions and put into an base class and subclass:
+# Make 'logging' of all message tunable
+# Have base-class use  'getattr' in combination with 'msgtype'.
+# to get the appropiate message handler.
 def handle_send(msg, username, channel_id):
     msg = json.loads(msg)
+    msg.update({"from":username})
     msgtype = msg.get("type")
     if msgtype is None:
         update = {"error":"Missing message type"}
@@ -58,7 +64,7 @@ def _handle_vote(choice, username, channel_id):
     user = User.objects.get(username=username)
     if user is None:
         return {"error":"No such user"}
-    if choice not in ["a", "b"]: #XXX make configurable?
+    if choice not in ["a", "b"]: #TODO make configurable.
         return {"error":"Invalid choice"}
     pitch = Pitch.objects.get(poll__guid=channel_id, choice_id=choice)
     if pitch is None:
@@ -72,16 +78,15 @@ def _handle_edit(content, choice, username, channel_id):
 
     TODO: Use more efficient diff algorithms/storage.
     """
-    poll = Poll.objects.get(guid=channel_id)
-    if poll is None:
-        return {"error":"No such poll"}
+    pitch = Pitch.objects.get(poll__guid=channel_id, choice_id=choice)
+    if pitch is None:
+        return {"error":"No such pitch"}
     user = User.objects.get(username=username)
     if user is None:
         return {"error":"No such user"}
-    if pitch not in ["a", "b"]: #XXX make configurable?
-        return {"error":"Invalid choice"}
-    newvote = Vote(poll=poll, choice=choice, voter=user)
-    newvote.save()
+    pitch.content = content
+    pitch.editor = user
+    pitch.save()
     return {"choice":choice, "content":content}
 
 
