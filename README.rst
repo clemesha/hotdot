@@ -7,6 +7,9 @@ What is `Hotdot`?
 A very complete example of how to a create a
 realtime web application using Django + Orbited + Twisted.
 
+Read more about the motivation behind `Hotdot`:
+http://clemesha.org/blog/2009/dec/17/realtime-web-apps-python-django-orbited-twisted
+
 Currently the example is: 
 *Realtime Voting Both: Collaborative Realtime Voting, Chatting, and Editing Polls.*
 
