@@ -1,0 +1,34 @@
+Hotdot as a framework
+=====================
+
+
+Usage of Django
+~~~~~~~~~~~~~~~
+
+INSTALLED_APPS
+--------------
+'hotdot.chat' / 'app.chat' => required dir 'realtime'
+
+'chat/realtime', 
+'vote/realtime', 
+'edit/realtime',
+
+sub dirs in realtime=> 'realtime/filter', 'realtime/auth', 'realtime/log' 
+
+hotdot.server -> devel/production
+hotdot.auth -> contains (twisted.cred checkers)
+hotdot.utils ?
+
+
+message filters/handlers/
+-------------------------
+* Require file 'app/realtime/handlers.py' #could be called 'middleware'?
+    - message 'type' is derived from app name
+    - 'handlers.py' should contain functions:
+        'connect', 'disconnect', 'subscribe', 'unsubscribe', 'send'
+    - 'handlers.py' functions form:
+        def send(*args, **kwargs):
+            ...
+            #must return dict with k/v to update msg
+
+
