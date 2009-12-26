@@ -32,3 +32,18 @@ message filters/handlers/
             #must return dict with k/v to update msg
 
 
+logging
+-------
+- log to database (use chat as an example)
+- log using standard python logging.
+
+
+
+
+filter/fine-grained security?
+-----------------------------
+
+
+
+
+
