@@ -16,7 +16,10 @@ Currently the example is:
 
 Is `Hotdot` a 'Realtime Web Framework'?
 ---------------------------------------
-Not currently. Maybe it should turn into one? 
+Not currently. Maybe it should turn into one? *UPDATE [12/27/2009]: I've started
+work on making Hotdot more "framework" like.  That is, I'm making it easier to "plug in" 
+your own application logic, etc, by following a small set of conventions.  
+The work-in-progress code is in this branch: http://github.com/clemesha/hotdot/tree/framework*
 
 For comparison, consider Tornado (http://www.tornadoweb.org),
 which is the 'realtime web framework' used to build FriendFeed.
