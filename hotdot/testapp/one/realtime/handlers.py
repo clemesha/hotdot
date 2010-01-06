@@ -1,7 +1,6 @@
 import os
 import sys
 abspath = os.path.abspath("../")
-print abspath
 sys.path.append(abspath)
 from hotdot import handlers
 

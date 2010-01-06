@@ -7,7 +7,8 @@ Usage of Django
 
 INSTALLED_APPS
 --------------
-'hotdot.chat' / 'app.chat' => required dir 'realtime'
+'hotdot.chat' / 'app.chat' => 
+    required dir 'realtime' *OR* default:'hotdot' in INSTALLED_APPS
 
 'chat/realtime', 
 'vote/realtime', 

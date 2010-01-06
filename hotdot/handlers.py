@@ -7,6 +7,7 @@ OR
 Require specifying of desired functions.
 
 """
+from django.conf import settings
 
 #TODO: when this is called with some django-admin func,
 # use normal method to find INSTALLED_APPS
@@ -46,9 +47,14 @@ def activate_registration(app):
 
     """
     #see also django/utils/importlib.py 
-    modname = app+"realtime.handlers" # eg "testapp.one.realtime.handlers"
-    __import__(modname)
-    return sys.modules[name] #not needed?
+    hotdotdir = getattr(settings, 'HOTDOT_DIRECTORY', 'realtime')
+    hotdothandlers = getattr(settings, 'HOTDOT_HANDLES', 'handlers')
+    modname = ".".join([app, hotdotdir, hotdothandlers]) # eg "testapp.one.realtime.handlers"
+    print "modname => ", modname
+    try:
+        __import__(modname)
+    except ImportError:
+        pass
 
 
 class Register(object):
@@ -57,10 +63,10 @@ class Register(object):
         self._registry = {} # maps Message types (msgtype) to Message Handler
         
     def __call__(self, name, handler_class):
-        self.register(name, handler_class)
+        self._register(name, handler_class)
         print self._registry
 
-    def register(self, name, handler_class):
+    def _register(self, name, handler_class):
         """Register a handler to all messages with `name`.
 
         """
