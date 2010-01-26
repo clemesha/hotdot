@@ -19,6 +19,7 @@ sys.path.append(abspath)
 from django.core.management import setup_environ
 
 from hotdot.handlers import activate_registration
+from hotdot.handlers import register
 
 if __name__ == "__main__":
     import settings
@@ -27,5 +28,6 @@ if __name__ == "__main__":
     for app in settings.INSTALLED_APPS:
         if not app.startswith("django."):
             activate_registration(app)
+    print "register._registry=> ", register._registry
               
     

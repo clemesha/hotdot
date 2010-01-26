@@ -48,7 +48,7 @@ def activate_registration(app):
     """
     #see also django/utils/importlib.py 
     hotdotdir = getattr(settings, 'HOTDOT_DIRECTORY', 'realtime')
-    hotdothandlers = getattr(settings, 'HOTDOT_HANDLES', 'handlers')
+    hotdothandlers = getattr(settings, 'HOTDOT_HANDLERS', 'handlers')
     modname = ".".join([app, hotdotdir, hotdothandlers]) # eg "testapp.one.realtime.handlers"
     print "modname => ", modname
     try:
@@ -64,7 +64,7 @@ class Register(object):
         
     def __call__(self, name, handler_class):
         self._register(name, handler_class)
-        print self._registry
+        print "self._registry=> ", self._registry
 
     def _register(self, name, handler_class):
         """Register a handler to all messages with `name`.

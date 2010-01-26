@@ -84,5 +84,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'djangoweb.polls',
     'djangoweb.registration',
-    'one'
+    'one',
+    'chat'
 )
