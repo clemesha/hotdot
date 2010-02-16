@@ -1,3 +1,9 @@
+/*
+ Copyright (C) 2009, 2010 Alex Clemesha <alex@clemesha.org>
+ 
+ This module is part of Hotdot, and is distributed under the terms 
+ of the BSD License: http://www.opensource.org/licenses/bsd-license.php
+*/
 function vote_send_message(){
     var choice = $(this).attr("id");
     var fullmsg = {"type":"vote", "choice":choice};

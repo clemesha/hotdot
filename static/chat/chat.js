@@ -1,4 +1,10 @@
 /*
+ Copyright (C) 2009, 2010 Alex Clemesha <alex@clemesha.org>
+ 
+ This module is part of Hotdot, and is distributed under the terms 
+ of the BSD License: http://www.opensource.org/licenses/bsd-license.php
+*/
+/*
 TODO: 
 
 - add timestamp after N seconds of non-activity
