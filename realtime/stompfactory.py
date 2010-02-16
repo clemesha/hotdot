@@ -16,12 +16,12 @@ from morbid.mqsecurity import MQRealm, MQDefaultParms, IConnector
 
 import auth
 
-def get_stomp_factory():
+def get_stomp_factory(stomp_rqaddr, stomp_rqport):
     parms = MQDefaultParms() #Could subclass to add config opts
     stomp_portal = StompPortalCustom(MQRealm(parms))
     checker = auth.DatabaseChecker()
     stomp_portal.registerChecker(checker)
-    stomp_factory = StompFactoryCustom(portal=stomp_portal, parms=parms)
+    stomp_factory = StompFactoryCustom(portal=stomp_portal, parms=parms, rqaddr=stomp_rqaddr, rqport=stomp_rqport)
     return stomp_factory
 
 
@@ -52,9 +52,10 @@ class StompFactoryCustom(Factory):
     """
     protocol = StompProtocol
 
-    def __init__(self, mqm=None, portal=None, parms=None, rqaddr=None, verbose=False):
+    def __init__(self, mqm=None, portal=None, parms=None, rqaddr=None, rqport=None, verbose=False):
         self.id = 0
-        self.restq = RestQ() #(rqaddr)
+        
+        self.restq = RestQ(rqaddr, rqport)
         self.verbose = verbose
         if mqm:
             self.mqm = mqm

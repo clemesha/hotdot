@@ -9,22 +9,19 @@ from twisted.web import resource
 from twisted.web.client import getPage
 
 try:
-    # 2.6 will have a json module in the stdlib
     import json
 except ImportError:
-    try:
-        # simplejson is the thing from which json was derived anyway...
-        import simplejson as json
-    except ImportError:
-        print "No suitable json library found, see INSTALL.txt"
+    import simplejson as json
 
 class RestQ(object):
-    def __init__(self, port=5000, rqaddr='http://localhost', handlers=None):
+    def __init__(self, rqaddr, rqport, handlers=None):
+        if not rqaddr.startswith("http://"):
+            rqaddr = "http://"+rqaddr 
         if handlers is None:
             self.handlers = ['connect', 'disconnect', 'subscribe', 'unsubscribe', 'send']
         else:
             self.handlers = handlers
-        self.callback_urls = dict([(handler, "%s:%d/%s" % (rqaddr, port, handler)) for
+        self.callback_urls = dict([(handler, "%s:%d/%s" % (rqaddr, rqport, handler)) for
                              handler in self.handlers])
         #if rqaddr:
         #    getPage(rqaddr).addCallback(self.initialize).addErrback(eb(rqaddr))

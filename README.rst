@@ -63,7 +63,7 @@ Install
     
     #You must have Django 1.0+ and Twisted 9.0+
     
-    pip -E hotdot_env install django orbited twisted simplejson
+    pip -E hotdot_env install -U django orbited twisted simplejson
 
 
 #. Move into your ``virtualenv`` and `activate` it::
@@ -92,7 +92,8 @@ Usage
     twistd -ny server.py 
 
 - Now open browser to http://localhost:8000/
-- Also see config options in `server.py`.
+- Also see settings in `server.py` and `djangoweb/settings.py`
+- To change host interface, see `server.py->INTERFACE` and `djangoweb/settings.py->INTERFACE`.
 
 
 Tests

@@ -53,7 +53,7 @@ proxy_factory = proxy.ProxyFactory()
 internet.GenericServer(cometsession.Port, factory=proxy_factory, resource=root_resource, childName="tcp", interface=INTERFACE).setServiceParent(serviceCollection)
 
 # Stomp server:
-stomp_factory = get_stomp_factory()
+stomp_factory = get_stomp_factory(INTERFACE, RESTQ_PROXY_PORT)
 internet.TCPServer(STOMP_PORT, stomp_factory, interface=INTERFACE).setServiceParent(serviceCollection)
 
 # RestQMessageProxy (message filter/logger/modifier):
